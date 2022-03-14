@@ -95,14 +95,7 @@ function oldfiles_selector#UpdateBuffer()
     silent % delete _
 
     """ __OLDFILES_SELECTOR_OLDFILES_LIST__ に ``:oldfiles`` の結果を表示
-    silent put!=s:oldfiles_list
-
-    """ 先頭と末尾が空行になるのでそれを削除
-    normal G"_dd
-    normal gg"_dd
-
-    """ 行番号を削除
-    silent :%s/^\d*: //g
+    call setline(1, v:oldfiles)
 
     " pattern の抽出
     if (s:patterns != "")
