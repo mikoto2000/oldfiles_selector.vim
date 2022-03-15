@@ -11,7 +11,7 @@ Usage:
 設定例 :
 
 ```vim
-noremap <Leader>l <Esc>:call oldfiles_selector#OpenOldfilesSelector()<Enter>
+noremap <Leader>mru <Esc>:call oldfiles_selector#OpenOldfilesSelector()<Enter>
 ```
 
 `oldfiles_selector#OpenOldfilesSelector()` を実行すると、バッファー選択用のバッファーが開きます。
