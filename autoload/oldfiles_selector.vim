@@ -1,4 +1,4 @@
-function oldfiles_selector#OpenOldfilesSelector() abort
+function! oldfiles_selector#OpenOldfilesSelector() abort
     """ 呼び出し元のウィンドウ ID を記憶
     let s:caller_window_id = win_getid()
 
@@ -51,14 +51,13 @@ function oldfiles_selector#OpenOldfilesSelector() abort
     set filetype=oldfile_selector
 
     """ 選択したバッファに移動
-    map <buffer> <Return> :call oldfiles_selector#OpenFile()<Return>
+    silent map <buffer> <Return> :call oldfiles_selector#OpenFile()<Return>
+    silent inoremap <buffer> <C-l> <Esc>:call oldfiles_selector#OpenFile()<Return>
 
     """ バッファリストを閉じる
     silent inoremap <silent> <buffer> q <ESC>:call oldfiles_selector#CloseOldfilesSelector()<Return>
     silent noremap <silent> <buffer> q <ESC>:call oldfiles_selector#CloseOldfilesSelector()<Return>
 
-    " バッファ開く
-    silent inoremap <silent> <buffer> <C-l> <Esc>:call oldfiles_selector#OpenFile()<Return>
 
     " パターン文字削除
     silent inoremap <silent> <buffer> <BS> <Esc>:call oldfiles_selector#DelChar()<Return>
@@ -91,7 +90,7 @@ function oldfiles_selector#OpenOldfilesSelector() abort
 
 endfunction
 
-function oldfiles_selector#UpdateBuffer()
+function! oldfiles_selector#UpdateBuffer()
     silent % delete _
 
     """ __OLDFILES_SELECTOR_OLDFILES_LIST__ に ``:oldfiles`` の結果を表示
@@ -109,18 +108,18 @@ function oldfiles_selector#UpdateBuffer()
 endfunction
 
 """ 何かを入力しようとしたら、必ずプロンプトの末尾に文字が追加されるようにする
-function oldfiles_selector#AddChar()
+function! oldfiles_selector#AddChar()
     let s:patterns = s:patterns . v:char
 endfunction
 
 """ プロンプト末尾の文字を削除
-function oldfiles_selector#DelChar()
+function! oldfiles_selector#DelChar()
     let s:patterns = s:patterns[0:-2]
     call oldfiles_selector#UpdateBuffer()
     startinsert
 endfunction
 
-function oldfiles_selector#CloseOldfilesSelector() abort
+function! oldfiles_selector#CloseOldfilesSelector() abort
     """ バッファリストを閉じる
     :bwipeout!
 
@@ -128,7 +127,7 @@ function oldfiles_selector#CloseOldfilesSelector() abort
     call win_gotoid(s:caller_window_id)
 endfunction
 
-function oldfiles_selector#OpenFile() abort
+function! oldfiles_selector#OpenFile() abort
     let file_path = getline(line('.'))
     :bwipeout!
 
